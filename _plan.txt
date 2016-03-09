@@ -1,0 +1,52 @@
+0705
+rebuttal周五中午截止，4天
+
+3.13-5.13 schedule
+
+1.MS 1week;3.20
+2.SS 0.5week:3.23
+3.MS 2pass 2week:3.30,->4.6
+4.SS 2pass 0.5week:4.10
+5.SS ani 2pas 1week:4.17
+
+6.MS+SS, tone, Raytrace, specular, texture, RMSE 1week:4.24
+7.finish fig&video 1week:4.30
+8.shader optimize, e.g. mem pool, 1week:5.6
+
+TOO LATE!!!
+
+2. SS 0.5week
+))SSIso
+#ComputeSaveInvis2[nv*16][6k]
+test: 可视化，按一下键，显示一层p的Invis2[nv][p][6k]'s visRatio
+
+#SSIso T1, 同时逐一小波至T1Coefs[nv][256]（也取256，同MS，只是巧合，够用就行了）
+test: 小心点。日后可变化p数，对比效果。
+
+#修改TransportRadiance，并入a*Td + b*T1
+test: MS+SSIso一起画出来。
+
+))SSAniso
+a)SVD(HG)为g[4][6*32*32],h[4][6k]，g,h均为4*6k的float*。
+b)将isoT1中b)vpT1改为： float vpT1k[k][vert][side,offset],即，有k(4)个T1。
+每个里面都用vpT1再乘内存里load进来的gk(wi')(像Fwi一样)。
+c)小波4个vpT1k为nv*256的数组: T1kCoef[nv][256]
+d)TR = SIGMA(a * TdCoefs(xo,wj) + b * SIGMA(h[k][wo]*T1Coef(xo,wj)) * L(wj))
+
+
+1.MS 1week
+to do : Td 对称可利用
+矩阵T(xo,wi)=sigma r(xi-xo) * E(xi,wi) d(xi)
+结果为：每一元素为
+T(xo,wi) = R(xi,xo)×E(xi,wi)。
+3个矩阵维度可表示为 
+xo*wi = (xo*xi) × (xi*wi)
+))先把map预采样到32*32，实时根据w或side,i,j找点（都很简单）。以后再实时采，并补边。
+)) V*n 4-term wavelet, as Td, L->l 4 term, to render diffuse day4.3
+))test 1day
+))figure
+4(a): bunny72k MS
+4(d): bunny diffuse
+7(a): buddha56k MS
+7(d): buddha diffuse
+//since these meshes are tooo big, can't do them. Left to milestone3

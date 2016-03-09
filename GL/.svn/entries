@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1"
+   name=""
+   committed-date="2006-08-03T09:45:55.364451Z"
+   url="file:///F:/Work/Codes/SSEdit3P%20SVNRepo/PRT/GL"
+   last-author="kyang"
+   kind="dir"
+   uuid="f709d982-8040-4542-b68f-1ddab8051dda"
+   repos="file:///F:/Work/Codes/SSEdit3P%20SVNRepo"
+   revision="22"/>
+<entry
+   committed-rev="1"
+   name="wglext.h"
+   text-time="2006-08-31T15:03:35.211953Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="e39e20caf8c180fbea33030a4338be82"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:34.831406Z"/>
+<entry
+   committed-rev="1"
+   name="glut.h"
+   text-time="2006-08-31T15:03:35.231982Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="89226a71366b0f5defe60b519fb02fc9"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:34.861449Z"/>
+<entry
+   committed-rev="1"
+   name="glxext.h"
+   text-time="2006-08-31T15:03:35.262025Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="0bccff740863fd845acd7acec6cb2e20"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:34.891492Z"/>
+<entry
+   committed-rev="1"
+   name="glew.h"
+   text-time="2006-08-31T15:03:35.292068Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="86e3613fb7b7e23ede812f8f824fc3ba"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:34.961593Z"/>
+<entry
+   committed-rev="1"
+   name="GLAux.h"
+   text-time="2006-08-31T15:03:35.322112Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="767a71e9d7d7c81cf04e799540e2907a"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:34.991636Z"/>
+<entry
+   committed-rev="1"
+   name="GL.h"
+   text-time="2006-08-31T15:03:35.342140Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="87877e0ee9ce5d2c2f40684213e29418"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:35.021680Z"/>
+<entry
+   committed-rev="1"
+   name="glext.h"
+   text-time="2006-08-31T15:03:35.372184Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="0c40bd4545aa630e139043c2b12f0807"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:35.081766Z"/>
+<entry
+   committed-rev="1"
+   name="wglew.h"
+   text-time="2006-08-31T15:03:35.412241Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="12db7eb1243f36827f9b9d4cbf29837e"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:35.111809Z"/>
+<entry
+   committed-rev="1"
+   name="glxew.h"
+   text-time="2006-08-31T15:03:35.432270Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="f8458895bea921c59f323a2725e28ecf"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:35.141852Z"/>
+<entry
+   committed-rev="1"
+   name="GLU.h"
+   text-time="2006-08-31T15:03:35.462313Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="c3a4730a9763ebdc92a803b32aaa8c46"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:35.171896Z"/>
+</wc-entries>

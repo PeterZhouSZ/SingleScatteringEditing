@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="7"
+   name=""
+   committed-date="2006-08-06T15:47:32.258006Z"
+   url="file:///F:/Work/Codes/SSEdit3P%20SVNRepo/PRT/res"
+   last-author="kyang"
+   kind="dir"
+   uuid="f709d982-8040-4542-b68f-1ddab8051dda"
+   repos="file:///F:/Work/Codes/SSEdit3P%20SVNRepo"
+   revision="22"/>
+<entry
+   committed-rev="1"
+   name="Toolbar.bmp"
+   text-time="2006-08-31T15:03:33.709793Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="2ddf486f6e4ddf47aaf6c4e0938ff402"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:33.339260Z"/>
+<entry
+   committed-rev="1"
+   name="PRTDoc.ico"
+   text-time="2006-08-31T15:03:33.729822Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="d2eb3d8a150aeefdd6cf7b2ad7c836bb"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:33.359289Z"/>
+<entry
+   committed-rev="7"
+   name="Thumbs.db"
+   text-time="2006-08-31T15:03:33.829966Z"
+   committed-date="2006-08-06T15:47:32.258006Z"
+   checksum="9342568499b82c428003bd483b23ba51"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:33.439404Z"/>
+<entry
+   committed-rev="1"
+   name="PRT.manifest"
+   text-time="2006-08-31T15:03:34.010225Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="2c43da93761ca50ff76e13aeb21cb1a8"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:33.469448Z"/>
+<entry
+   committed-rev="1"
+   name="PRT.rc2"
+   text-time="2006-08-31T15:03:34.040268Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="902662b7240fa983e1c4897911b0e814"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:33.509505Z"/>
+<entry
+   committed-rev="1"
+   name="PRT.ico"
+   text-time="2006-08-31T15:03:34.060297Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="2d6e0cf11002baac29b4b6f5a81bc9ac"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:33.669736Z"/>
+</wc-entries>

@@ -1,0 +1,609 @@
+	//fbo.bind; fbo.attach(0:normTex,1:t1Tex);
+	//for each vert
+	//	for each side
+	//		for each xp
+	//			pass1: enable(depth,sten), fbo.bind(normTex, zTex), drawBuffer(att0).draw. vs: norm=MVP(glNorm). z=(MV*V).z, ps:depth=z,color=norm
+	//			readPixel(sten), texSubImg(stenTex)
+	//			pass2: drawBuffer(att1),glBlend(add)(if xp1, clear color)), disable(depth,sten), fbo.unbind(normTex, zTex), fbo.bind(t1Tex), drawviewport. vs:(no), ps:fragColor = sample(normTex,zTex,stenTex), disable(blend)
+	//		getTexImg(texT1)
+	//	haar T1OneVert
+
+
+	fb.AttachTexture(GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, t1Tex);
+	CheckErrorsGL("tex_T1");
+
+	fb.AttachTexture(GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, tex_depth);//stencil doesn't bound
+	//CheckErrorsGL("tex_depth");
+	fb.AttachTexture(GL_STENCIL_ATTACHMENT_EXT, GL_TEXTURE_2D, tex_depth);//test
+	//CheckErrorsGL("tex_stencil test");
+
+	//glGenTextures(1, &tex_stencil);
+	//glBindTexture(GL_TEXTURE_2D, tex_stencil);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE8, m_cubeRes, m_cubeRes, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
+	//CheckErrorsGL("tex_stencil");
+
+	//glGenTextures(1, &tex_T1); //blend target
+	//glBindTexture(GL_TEXTURE_2D, tex_T1);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexImage2D(GL_TEXTURE_2D, 0 , GL_RGB16F_ARB, m_cubeRes, m_cubeRes, 0, GL_RGB, GL_FLOAT, 0);
+	//fb.AttachTexture(GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, tex_T1);
+	//CheckErrorsGL("tex_T1");
+
+	//fb.Bind();//glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);		draw to fb(tex_color)
+
+	//fb.IsValid();
+	//CheckErrorsGL("END : Creating textures");
+	//fb.Disable();
+
+
+
+
+
+
+
+				if(p == 0)
+				{
+					glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_RGB, GL_FLOAT, &pNiOneVert[0]);
+					CheckErrorsGL("test vs read color");
+					glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_DEPTH_COMPONENT, GL_FLOAT, &pSiOneVert[0]);
+					CheckErrorsGL("test vs read MVdepth");
+					glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+					CheckErrorsGL("test vs read MVstencil");
+					//glBindTexture(GL_TEXTURE_2D, tex_normal);
+					//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, &pNiOneVert[0]);
+					//CheckErrorsGL("test vs read color");
+					//glBindTexture(GL_TEXTURE_2D, tex_depth);
+					//glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, &pSiOneVert[0]);
+					//CheckErrorsGL("test vs read MVdepth");
+
+					Vec3* pNi = &pNiOneVert[0];
+					for(int offset = 0; offset < n1k; ++offset)
+					{
+						*pNi = (*pNi * 2.f) - 1.f;
+						pNi->Normalize();
+						++pNi;
+					}
+					char strSide[2];
+					_itoa(side, strSide, 10);
+
+					CString sss = "SSVis";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes, m_cubeRes);
+
+					sss = "Ni";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pNiOneVert[0], m_cubeRes, m_cubeRes);
+
+					sss = "Si";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSiOneVert[0], m_cubeRes, m_cubeRes);
+				}
+				//glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+				//CheckErrorsGL("get tex_stencil");
+				//glBindTexture(GL_TEXTURE_2D, tex_stencil);
+				//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_cubeRes, m_cubeRes,  GL_LUMINANCE, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+				//CheckErrorsGL("submit tex_stencil");
+				//glDrawBuffer(GL_COLOR_ATTACHMENT1_EXT); 
+				//glBindTexture(GL_TEXTURE_2D, 0);//temp
+				//fb.Bind();
+				glDisable(GL_DEPTH_TEST);
+				glDisable(GL_STENCIL_TEST);
+				myShader->begin();
+				glDrawElements(GL_TRIANGLES, 3 * m_accessObj.m_pModel->nTriangles, GL_UNSIGNED_INT, &m_accessObj.m_pModel->TrianglesIndices[0]);
+				//myShader->sendUniform1f("m_yita", m_yita);
+				//myShader->sendUniform1f("pdf", pdfs[p]);
+				//myShader->sendUniform1f("intrude", intrudes[p]);
+				//myShader->sendUniform3f("m_sigmaT", m_sigmaT.x, m_sigmaT.y, m_sigmaT.z);
+				//myShader->sendUniform1i("side", side);
+				//myShader->sendUniform1i("m_cubeRes", m_cubeRes);
+				//myShader->sendUniform1i("tex_stencil", tex_stencil);
+				myShader->end(); 
+				glEnable(GL_DEPTH_TEST);
+				glEnable(GL_STENCIL_TEST);
+
+
+#else
+
+				if(p == 0)
+				{
+					glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_RGB, GL_FLOAT, &pNiOneVert[0]);
+					CheckErrorsGL("test vs read color");
+					glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_DEPTH_COMPONENT, GL_FLOAT, &pSiOneVert[0]);
+					CheckErrorsGL("test vs read MVdepth");
+					glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+					CheckErrorsGL("test vs read MVstencil");
+					//glBindTexture(GL_TEXTURE_2D, tex_normal);
+					//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, &pNiOneVert[0]);
+					//CheckErrorsGL("test vs read color");
+					//glBindTexture(GL_TEXTURE_2D, tex_depth);
+					//glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, &pSiOneVert[0]);
+					//CheckErrorsGL("test vs read MVdepth");
+
+					Vec3* pNi = &pNiOneVert[0];
+					for(int offset = 0; offset < n1k; ++offset)
+					{
+						*pNi = (*pNi * 2.f) - 1.f;
+						pNi->Normalize();
+						++pNi;
+					}
+					char strSide[2];
+					_itoa(side, strSide, 10);
+
+					CString sss = "SSVis";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes, m_cubeRes);
+
+					sss = "Ni";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pNiOneVert[0], m_cubeRes, m_cubeRes);
+
+					sss = "Si";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSiOneVert[0], m_cubeRes, m_cubeRes);
+				}
+#else
+				glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_DEPTH_COMPONENT, GL_FLOAT, &pSiOneVert[0]);
+				CheckErrorsGL("get tex_depth");
+				glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+				CheckErrorsGL("get tex_stencil");
+				glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_RGB, GL_FLOAT,  &pNiOneVert[0]);
+				CheckErrorsGL("get tex_color");
+				Vec3* pNi = &pNiOneVert[0];
+				float* pSi = &pSiOneVert[0];
+				for(int offset = 0; offset < n1k; ++offset)
+				{
+					*pNi = (*pNi * 2.f) - 1.f;
+					pNi->Normalize();
+					++pNi;
+					gluUnProject(GLdouble(offset % m_cubeRes), GLdouble(offset / m_cubeRes),  GLdouble(*pSi), IdModel, Proj, (GLint*)viewport, &siX, &siY, &siZ);
+					*pSi = (float)-siZ;
+					++pSi;
+				}
+				if(side == 0)
+				{
+					Fliplr(&pSiOneVert[0], m_cubeRes, m_cubeRes);
+					Fliplr(&pNiOneVert[0], m_cubeRes, m_cubeRes);
+					Fliplr(&pSSVisOneVert[0], m_cubeRes, m_cubeRes);
+				}
+				//test passed
+				if(p == 0)
+				{
+					CString sss = "SSVis";
+					char strSide[2];
+					_itoa(side, strSide, 10);
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes, m_cubeRes);
+					
+					sss = "Ni";
+					_itoa(side, strSide, 10);
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pNiOneVert[0], m_cubeRes, m_cubeRes);
+					
+					sss = "Si";
+					_itoa(side, strSide, 10);
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSiOneVert[0], m_cubeRes, m_cubeRes);
+				}
+
+				//subsurf blend
+				float Cos;
+				int curOffset = 0;
+				float Si1;
+				Vec3* pT1 = &pOneT1[side * n1k];
+				byte* pVis = &pSSVisOneVert[0];
+				/*float**/ pSi = &pSiOneVert[0];
+				/*Vec3* */pNi = &pNiOneVert[0];
+				for(int offset = 0; offset < n1k; ++offset)
+				{
+					if(*pVis == 1) //stencil==1: visible.
+					{
+						Cos = Dot(*pNi, m_cubeMap.Offset2Dir(side, offset, m_cubeRes));
+						if(Cos > Epsilon)
+						{
+							Si1 = *pSi * (Cos / sqrtf(1 - (1 - Cos * Cos) / m_yita / m_yita));
+							if(_Fwi1)
+								*pT1 += EXPF(- m_sigmaT * (intrudes[p] + Si1)) / pdfs[p];
+							else
+								*pT1 += EXPF(- m_sigmaT * (intrudes[p] + Si1)) / pdfs[p] * FresnelT(Cos);
+						}
+					}
+					++curOffset;
+					++pT1;
+					++pVis;
+					++pSi;
+					++pNi;
+				}
+#endif
+				CheckErrorsGL("After texture blend");
+			}
+
+#if _ShaderBlend
+			//after blend, read back
+//			glBindTexture(GL_TEXTURE_2D, tex_T1);//read T1
+//			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, &pOneT1[side * n1k]);
+#endif
+		}
+#if _ShaderBlend
+		Fliplr(&pOneT1[0], m_cubeRes, m_cubeRes);//flip!!
+		//multiple render target: in shader, leave to step2. Shader now no gk, only k T1k
+		//blend Gk and Haar it to T1k
+		float* pGk = &pG[0];
+		for(int k = 0; k < m_phaseSVDterm; ++k)
+		{
+			Vec3* pT1 = &pOneT1[0];
+			int multiple = m_cubeRes / m_HGres;
+			for(int side = 0; side < 6; ++side)
+				for(int row = 0; row < m_cubeRes; ++row)
+					for(int col = 0; col < m_cubeRes; ++col)
+					{
+						pGk = &pG[k * 6 * m_HGres * m_HGres + side * m_HGres * m_HGres + (row/multiple) * m_HGres + (col/multiple)];//wi->wi' approx
+						*pT1 = DP(*pT1, m_sigmaS) * (*pGk) / (float)m_SSSampleNum;
+						++pT1;
+					}
+			for(int side = 0; side < 6; ++side)
+			{
+				m_wavelet.Haar2D(&pOneT1[side * n1k], m_cubeRes, m_cubeRes);
+			}
+			KeepLoss(&pOneT1[0], n6k, m_T1CoefNum, &pOneT1Loss[0], &pOneT1IdxLoss[0]);
+			////T1C format: each vert, each k, m_T1CoefNum's T1Coef and T1CoefIdx
+			//size_t n = fwrite(&pOneT1Loss[0], sizeof(Vec3), m_T1CoefNum, fT1C);
+			//assert(n == size_t(m_T1CoefNum));
+			//n = fwrite(&pOneT1IdxLoss[0], sizeof(unsigned int), m_T1CoefNum, fT1C);
+			//assert(n == size_t(m_T1CoefNum));
+		}
+		if(vIdx % 100 == 0)
+		{
+			dwTmTtlEnd = GetTickCount();
+			std::cout<<"T1k coefs of vert "<<vIdx<<" of "<< m_accessObj.m_pModel->nVertices<<" vertices finished, time: "<< (dwTmTtlEnd - dwTmTtlSrt) / 1000<<" \n";
+		}
+#else
+		//multiple render target: in shader, leave to step2. Shader now no gk, only k T1k
+		//blend Gk and Haar it to T1k
+		float* pGk = &pG[0];
+		for(int k = 0; k < m_phaseSVDterm; ++k)
+		{
+			Vec3* pT1 = &pOneT1[0];
+			int multiple = m_cubeRes / m_HGres;
+			for(int side = 0; side < 6; ++side)
+				for(int row = 0; row < m_cubeRes; ++row)
+					for(int col = 0; col < m_cubeRes; ++col)
+					{
+						pGk = &pG[k * 6 * m_HGres * m_HGres + side * m_HGres * m_HGres + (row/multiple) * m_HGres + (col/multiple)];//wi->wi' approx
+						*pT1 = DP(*pT1, m_sigmaS) * (*pGk) / (float)m_SSSampleNum;
+						++pT1;
+					}
+					for(int side = 0; side < 6; ++side)
+					{
+						m_wavelet.Haar2D(&pOneT1[side * n1k], m_cubeRes, m_cubeRes);
+					}
+					KeepLoss(&pOneT1[0], n6k, m_T1CoefNum, &pOneT1Loss[0], &pOneT1IdxLoss[0]);
+					////T1C format: each vert, each k, m_T1CoefNum's T1Coef and T1CoefIdx
+					//size_t n = fwrite(&pOneT1Loss[0], sizeof(Vec3), m_T1CoefNum, fT1C);
+					//assert(n == size_t(m_T1CoefNum));
+					//n = fwrite(&pOneT1IdxLoss[0], sizeof(unsigned int), m_T1CoefNum, fT1C);
+					//assert(n == size_t(m_T1CoefNum));
+		}
+		if(vIdx % 100 == 0)
+		{
+			dwTmTtlEnd = GetTickCount();
+			std::cout<<"T1k coefs of vert "<<vIdx<<" of "<< m_accessObj.m_pModel->nVertices<<" vertices finished, time: "<< (dwTmTtlEnd - dwTmTtlSrt) / 1000<<" \n";
+		}
+#endif
+	}
+
+
+
+				////test vs1, fs1
+				//if(p == 0)
+				//{
+				//	glBindTexture(GL_TEXTURE_2D, normTex);
+				//	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, &pNiOneVert[0]);
+				//	glBindTexture(GL_TEXTURE_2D, normTex);
+				//	glGetTexImage(GL_TEXTURE_2D, 0, GL_ALPHA, GL_FLOAT, &pSiOneVert[0]);
+
+				//	CheckErrorsGL("test vs1, fs1");
+				//	char strSide[2];
+				//	_itoa(side, strSide, 10);
+
+				//	CString sss = "SSVis";
+				//	sss = sss + strSide + ".pfm";
+				//	m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+
+				//	sss = "Ni";
+				//	sss = sss + strSide + ".pfm";
+				//	m_cubeMap.WritePFMRaw(sss,  &pNiOneVert[0], m_cubeRes, m_cubeRes);
+
+				//	sss = "Si";
+				//	sss = sss + strSide + ".pfm";
+				//	m_cubeMap.WritePFMRaw(sss,  &pSiOneVert[0], m_cubeRes, m_cubeRes);
+				//}
+
+
+
+	
+	//glGenTextures(1, &tex_depth);
+	//glBindTexture(GL_TEXTURE_2D, tex_depth);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8_EXT, m_cubeRes, m_cubeRes, 0,GL_DEPTH_STENCIL_EXT, GL_UNSIGNED_INT_24_8_EXT, NULL);
+	//fb.AttachTexture(GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, tex_depth);//stencil doesn't bound
+	//CheckErrorsGL("tex_depth");
+	//fb.AttachTexture(GL_STENCIL_ATTACHMENT_EXT, GL_TEXTURE_2D, tex_depth);//test
+	//CheckErrorsGL("tex_stencil test");
+
+	//glGenTextures(1, &tex_stencil);
+	//glBindTexture(GL_TEXTURE_2D, tex_stencil);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE8, m_cubeRes, m_cubeRes, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, NULL);
+	//CheckErrorsGL("tex_stencil");
+
+
+
+
+
+	///////////////////////////////////////////////////////////////////////////////
+	////test
+	//GLuint foo;
+	//glGenTextures(1, &foo);	
+	//glBindTexture(GL_TEXTURE_2D, foo);
+	//vector<float>pfoo(m_cubeRes * m_cubeRes * 4, 0.3);
+	//glTexImage2D(GL_TEXTURE_2D, 0 , GL_RGBA16F_ARB, m_cubeRes, m_cubeRes, 0, GL_RGBA, GL_FLOAT, &pfoo[0]);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	////start render
+	//Vec3 center = Vec3(0,0,0);
+	//Vec3 up = Vec3(0,0,0);
+	//Vec3* pVert = &m_accessObj.m_pModel->vpVertices[0];
+	//Vec3* pNorm = &m_accessObj.m_pModel->vpVertexNormals[0];
+	//Vec3* pDm =  &m_accessObj.m_pModel->vpDm[0];
+	//Vec3 VertXp;
+	//for (unsigned int vIdx = 0; vIdx < m_accessObj.m_pModel->nVertices; ++vIdx)
+	//{ 
+	//	++pVert; //obj index starts from 1
+	//	++pNorm;
+	//	++pDm;
+	//	SSSampleIntrude(&intrudes[0], &pdfs[0], m_SSSampleNum, pDm->x);
+	//	for(int side = 0; side < 6; side++)
+	//	{
+	//		for(int p = 0; p < m_SSSampleNum; ++p)
+	//		{
+	//			glMatrixMode(GL_MODELVIEW);
+	//			glLoadIdentity();
+	//			VertXp = *pVert - *pNorm * intrudes[p]; //intrude to xp
+	//			m_cubeMap.EyeSide2CenterUp(&VertXp, side, &center, &up);
+	//			gluLookAt(VertXp.x, VertXp.y, VertXp.z, center.x, center.y, center.z, up.x, up.y, up.z);
+	//			//pass2
+	//			glDisable(GL_DEPTH_TEST);
+	//			glDisable(GL_STENCIL_TEST);
+	//			glDrawBuffer(GL_COLOR_ATTACHMENT1_EXT);//T1Tex
+	//			glEnable (GL_BLEND);
+	//			glBlendFunc (GL_ONE, GL_ONE);
+	//			//draw
+	//			if(p == 0)
+	//				glClear(GL_COLOR_BUFFER_BIT);//this color is attach1, t1Tex!
+	//			glEnable(GL_TEXTURE_2D);
+	//			myShader2->begin();
+	//			//myShader2->sendUniform1f("m_yita", m_yita);
+	//			//myShader2->sendUniform1f("pdf", pdfs[p]);
+	//			//myShader2->sendUniform1f("intrude", intrudes[p]);
+	//			//myShader2->sendUniform3f("m_sigmaT", m_sigmaT.x, m_sigmaT.y, m_sigmaT.z);
+	//			//myShader2->sendUniform1i("side", side);
+	//			//myShader2->sendUniform1i("m_cubeRes", m_cubeRes);
+	//			//CheckErrorsGL("fdas");
+	//			//myShader2->sendUniform1i("NiSiSampler", 2);
+	//			glActiveTexture(GL_TEXTURE0);
+	//			glBindTexture(GL_TEXTURE_2D, foo);
+	//			myShader2->sendUniform1i("NiSiSampler", 0);
+
+	//			DrawTexRect();				
+	//			glFlush();
+	//			myShader2->end();
+	//			glDisable(GL_BLEND);
+	//			CheckErrorsGL("pass2");
+	//			glBindTexture(GL_TEXTURE_2D, T1Tex);
+	//			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_FLOAT, &pOneT1[side * n1k]);
+	//			Fliplr(&pOneT1[0], m_cubeRes, m_cubeRes);//flip!!
+	//			CheckErrorsGL("getT1");
+	//			//if(p == 0)
+	//			//{
+	//			//	//test passed
+	//			//	char strSide[2];
+	//			//	_itoa(side, strSide, 10);
+	//			//	CString sss = "T1";
+	//			//	sss = sss + strSide + ".pfm";
+	//			//	m_cubeMap.WritePFMRaw(sss,  &pOneT1[side * n1k], m_cubeRes,m_cubeRes);
+	//			//}
+	//		}
+	//	//test passed
+	//	char strSide[2];
+	//	_itoa(side, strSide, 10);
+	//	CString sss = "T1";
+	//	sss = sss + strSide + ".pfm";
+	//	m_cubeMap.WritePFMRaw(sss,  &pOneT1[side * n1k], m_cubeRes,m_cubeRes);
+	//	}
+	//	//haar...
+	//}
+
+
+
+
+
+				//test
+				int* pfoo = new int[m_cubeRes * m_cubeRes];
+				glBindTexture(GL_TEXTURE_2D, VisTex);
+				glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL_EXT, GL_UNSIGNED_INT_24_8_EXT, pfoo);
+				CheckErrorsGL("fda");
+				if(p == 0)
+				{
+					byte* pR = new byte[m_cubeRes * m_cubeRes];
+					byte* pG = new byte[m_cubeRes * m_cubeRes];
+					byte* pB = new byte[m_cubeRes * m_cubeRes];
+					byte* pA = new byte[m_cubeRes * m_cubeRes];
+					for(int i = 0; i < m_cubeRes * m_cubeRes; ++i)
+					{
+						pR[i] = byte(pfoo[i]);
+						pG[i] = byte(pfoo[i] >> 8);
+						pB[i] = byte(pfoo[i] >> 16);
+						pA[i] = byte(pfoo[i] >> 24);
+					}
+					char strSide[2];
+					_itoa(side, strSide, 10);
+					CString sss = "pR";//this is stencil!!!
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pR[0], m_cubeRes,m_cubeRes);
+
+					sss = "pG";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pG[0], m_cubeRes,m_cubeRes);
+
+					sss = "pB";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pB[0], m_cubeRes,m_cubeRes);
+					
+					sss = "pA";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pA[0], m_cubeRes,m_cubeRes);
+				}
+				glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+				if(p == 0)
+				{
+					char strSide[2];
+					_itoa(side, strSide, 10);
+					CString sss = "CPUvis";
+					sss = sss + strSide + ".pfm";
+					m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+				}
+
+
+
+
+				//glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+				//if(p == 0)
+				//{
+				//	//test passed
+				//	char strSide[2];
+				//	_itoa(side, strSide, 10);
+				//	CString sss = "T1";
+				//	sss = sss + strSide + ".pfm";
+				//	byte* st = new byte[m_cubeRes * m_cubeRes];
+				//	m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+				//}
+
+				//glBindTexture(GL_TEXTURE_2D, fooTex);
+				//int* foo = new int[m_cubeRes * m_cubeRes];
+				//glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL_EXT, GL_UNSIGNED_INT_24_8_EXT, &foo[0]);
+				//CheckErrorsGL("test stencil");
+				//if(p == 0)
+				//{
+				//	//test passed
+				//	char strSide[2];
+				//	_itoa(side, strSide, 10);
+				//	CString sss = "T1";
+				//	sss = sss + strSide + ".pfm";
+				//	for(int i = 0; i < m_cubeRes * m_cubeRes; ++i)
+				//		 pSSVisOneVert[i] = byte(foo[i] >> 24);//a
+				//	m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+
+				//	for(int i = 0; i < m_cubeRes * m_cubeRes; ++i)
+				//		pSSVisOneVert[i] = byte(foo[i] >> 16);//r
+				//	m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+
+				//	for(int i = 0; i < m_cubeRes * m_cubeRes; ++i)
+				//		pSSVisOneVert[i] = byte(foo[i] >> 8);//g
+				//	m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+
+				//	for(int i = 0; i < m_cubeRes * m_cubeRes; ++i)
+				//		pSSVisOneVert[i] = byte(foo[i] );//b
+				//	m_cubeMap.WritePFMRaw(sss,  &pSSVisOneVert[0], m_cubeRes,m_cubeRes);
+
+				//}
+				//glReadPixels(0, 0, m_cubeRes, m_cubeRes, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+				//CheckErrorsGL("subImage");
+				//glBindTexture(GL_TEXTURE_2D, VisTex);
+				//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_cubeRes, m_cubeRes,  GL_LUMINANCE, GL_UNSIGNED_BYTE, &pSSVisOneVert[0]);
+
+
+	GLuint* pGkCubeTex = new GLuint[m_phaseSVDterm];
+	glGenTextures(m_phaseSVDterm, pGkCubeTex); //my card only support max 4 drawbuffers.
+	for(int i = 0; i < m_phaseSVDterm; ++i)
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, pGkCubeTex[i]);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);		
+		glTexParameteri(GL_TEXTURE_CUBE_MAP_ARB, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		for (int side = 0; side < 6; ++side) 
+		{
+			////test
+			//char strSide[2];
+			//_itoa(side, strSide, 10);
+			//CString sss = "hehe";
+			//sss = sss + strSide + ".pfm";
+			//m_cubeMap.WritePFMRaw(sss,  &pG[i * nHGsize + side * m_HGres * m_HGres], m_HGres,m_HGres);
+			/////test
+			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X_ARB + side, 0, GL_RGBA16F_ARB, m_HGres, m_HGres, 0, GL_RED, GL_FLOAT, &pG[i * nHGsize + side * m_HGres * m_HGres]);
+			CheckErrorsGL("gen gkCubemaps");
+		}
+	}
+
+
+
+				////NON-OOP: defalt m_phaseSVDterm = 4!! for(int i = 0; i < m_phaseSVDterm; ++i)
+				//glActiveTexture(GL_TEXTURE2);
+				//glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, pGkCubeTex[0]);
+				//myShader2->sendUniform1i("g0Sampler", 2);
+				//				CheckErrorsGL("3");
+
+				//glActiveTexture(GL_TEXTURE3);
+				//glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, pGkCubeTex[1]);
+				//myShader2->sendUniform1i("g1Sampler", 3);
+				//				CheckErrorsGL("4");
+
+				//glActiveTexture(GL_TEXTURE4);
+				//glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, pGkCubeTex[2]);
+				//myShader2->sendUniform1i("g2Sampler", 4);
+				//				CheckErrorsGL("5");
+
+				//glActiveTexture(GL_TEXTURE5);
+				//glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, pGkCubeTex[3]);
+				//myShader2->sendUniform1i("g3Sampler", 5);		
+				//				CheckErrorsGL("6");
+
+
+	m_cubeMap.WritePFMRaw("g4_1536",  &pG[0], 4, 1536);
+
+	m_cubeMap.WritePFMRaw("g1536_4",  &pG[0], 1536, 4);
+
+
+
+			//////////////////////////////////////////////////////////////////////////////test
+			//if(p == 0)
+			//{
+			//	for(int side = 0; side < 6; ++side)
+			//	{
+			//		//for test
+			//		CString sss;
+			//		char strSide[2];
+			//		_itoa(side, strSide, 10);
+
+			//		sss = "vis";
+			//		sss = sss + strSide + ".pfm";
+			//		m_cubeMap.WritePFMRaw(sss, &pSSVisOneVert[side * n1k], m_cubeRes, m_cubeRes);
+
+			//		sss = "si";
+			//		sss = sss + strSide + ".pfm";
+			//		m_cubeMap.WritePFMRaw(sss, &pSiOneVert[side * n1k], m_cubeRes, m_cubeRes);
+
+			//		sss = "Ni";
+			//		sss = sss + strSide + ".pfm";
+			//		m_cubeMap.WritePFMRaw(sss, &pNiOneVert[side * n1k], m_cubeRes, m_cubeRes);
+
+			//	}
+			//}
+
+			//////////////////////////////////////////////////////////////////////////////
+			//

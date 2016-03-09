@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="1"
+   name=""
+   committed-date="2006-08-03T09:45:55.364451Z"
+   url="file:///F:/Work/Codes/SSEdit3P%20SVNRepo/PRT/cwc/ext"
+   last-author="kyang"
+   kind="dir"
+   uuid="f709d982-8040-4542-b68f-1ddab8051dda"
+   repos="file:///F:/Work/Codes/SSEdit3P%20SVNRepo"
+   revision="22"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_vertex_shader.h"
+   text-time="2006-08-31T15:03:25.568086Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="200ab6f3044d4d21b26c224372ef6f1d"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.017294Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_EXT_texture3D.h"
+   text-time="2006-08-31T15:03:25.588115Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="c1d28e7e31d1fb441a5774191849f6d8"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.047337Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_fragment_shader.cpp"
+   text-time="2006-08-31T15:03:25.698273Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="96d698a9929a50ed8c4490716991f1a1"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.117438Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_multitexture.cpp"
+   text-time="2006-08-31T15:03:25.768374Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="79d4a0f1efd90d5828850433537d77ca"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.147481Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_vertex_buffer_object.cpp"
+   text-time="2006-08-31T15:03:25.788403Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="10a0d390363a20525246797cf983ae5d"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.197553Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_GL_ARB_multitexture.cpp"
+   text-time="2006-08-31T15:03:25.818446Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="af66487f74a12c239b27c29a4232af86"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.217582Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_fragment_shader.h"
+   text-time="2006-08-31T15:03:25.848489Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="1561667def085c3121410941eb58b076"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.297697Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_shader_objects.cpp"
+   text-time="2006-08-31T15:03:25.888547Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="d961a38644cf83e95aacda776225d90b"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.327740Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_multitexture.h"
+   text-time="2006-08-31T15:03:25.918590Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="984d3afde1907664a96229b9a7b4b604"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.377812Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_vertex_buffer_object.h"
+   text-time="2006-08-31T15:03:25.948633Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="7a6b7a3be3d257eb766248e04b55755f"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.407856Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_vertex_shader.cpp"
+   text-time="2006-08-31T15:03:25.968662Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="d1bcf58926154e957b147217cb9e7e7d"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.437899Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_EXT_texture3D.cpp"
+   text-time="2006-08-31T15:03:26.028748Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="f0f95ddd66f813b0817b237783f51fd4"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.487971Z"/>
+<entry
+   committed-rev="1"
+   name="aGLExt_ARB_shader_objects.h"
+   text-time="2006-08-31T15:03:26.048777Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="9641774b1bc74a4dc89b1ba3f2adccca"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:25.518014Z"/>
+</wc-entries>

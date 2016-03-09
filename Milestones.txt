@@ -1,0 +1,12 @@
+Milestones:
+1. 1536*11 -> 4*3, Shader T1 (0.5day)ok
+2. 1536*11 -> 4*3, CPU render (0.5day)ok
+3. 1536*11 -> 8*3, Shader 2pass T1 (2days) ok
+4. 1536*11 -> 8*3, CPU render (0.5day)ok
+5. 1536*100 -> 8*3, other Phase functions, CPU render (0.5day) ok
+6. Shader render (1day)
+7. tone, RMSE, gt (1day)
+8. finish fig&video (1day)
+9. Shader optimize etc. (1day)
+
+Total time: 7.20-7.28, 8days

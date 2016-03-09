@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="4"
+   name=""
+   committed-date="2006-08-04T12:51:51.805078Z"
+   url="file:///F:/Work/Codes/SSEdit3P%20SVNRepo/PRT/cwc"
+   last-author="kyang"
+   kind="dir"
+   uuid="f709d982-8040-4542-b68f-1ddab8051dda"
+   repos="file:///F:/Work/Codes/SSEdit3P%20SVNRepo"
+   revision="22"/>
+<entry
+   name="ext"
+   kind="dir"/>
+<entry
+   committed-rev="1"
+   name="aCg.h"
+   text-time="2006-08-31T15:03:26.459368Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="97ac951298a03872722b5bf8149fc6af"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:24.937179Z"/>
+<entry
+   committed-rev="1"
+   name="simpleGL.h"
+   text-time="2006-08-31T15:03:26.489411Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="80fc57384c5d41da88f1acdf47ffc0b7"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.098849Z"/>
+<entry
+   committed-rev="4"
+   name="aGLSL.cpp"
+   text-time="2006-08-31T15:03:26.549497Z"
+   committed-date="2006-08-04T12:51:51.805078Z"
+   checksum="a96bcad8a6682afb99f5f1a1bec97272"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.128892Z"/>
+<entry
+   committed-rev="1"
+   name="aGL_Extensions.cpp"
+   text-time="2006-08-31T15:03:26.669670Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="75fcafa26098714efadd3c4c4a44190b"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.188979Z"/>
+<entry
+   committed-rev="1"
+   name="doxyfile"
+   text-time="2006-08-31T15:03:26.689699Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="c8f9c689af3e36204fd1f144a4792e09"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.209008Z"/>
+<entry
+   committed-rev="1"
+   name="aGLSL.h"
+   text-time="2006-08-31T15:03:26.719742Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="aee4229a7be309737558ed3bc5b807c8"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.259080Z"/>
+<entry
+   committed-rev="1"
+   name="aGL_Extensions.h"
+   text-time="2006-08-31T15:03:26.749785Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="aa565651639e4ff2a2d8936c68d94e29"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.289123Z"/>
+<entry
+   committed-rev="1"
+   name="ReadMe.txt"
+   text-time="2006-08-31T15:03:26.819886Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="4eb7d79056208195ac9676728be0541f"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.329180Z"/>
+<entry
+   committed-rev="1"
+   name="simpleGL.cpp"
+   text-time="2006-08-31T15:03:26.839915Z"
+   committed-date="2006-08-03T09:45:55.364451Z"
+   checksum="6c84748d97a97aca95973c26270e3ad0"
+   last-author="kyang"
+   kind="file"
+   prop-time="2006-08-31T15:03:26.409296Z"/>
+</wc-entries>
